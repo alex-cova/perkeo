@@ -1,0 +1,22 @@
+{
+    "configurations": [
+        {
+            "type": "lldb",
+            "request": "launch",
+            "args": [],
+            "cwd": "${workspaceFolder:balatro}",
+            "name": "Debug balatro",
+            "program": "${workspaceFolder:balatro}/.build/debug/balatro",
+            "preLaunchTask": "swift: Build Debug balatro"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "args": [],
+            "cwd": "${workspaceFolder:balatro}",
+            "name": "Release balatro",
+            "program": "${workspaceFolder:balatro}/.build/release/balatro",
+            "preLaunchTask": "swift: Build Release balatro"
+        }
+    ]
+}
