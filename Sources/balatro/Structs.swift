@@ -12,30 +12,30 @@ class JokerStickers {
 }
 
 class JokerData {
-    var joker : Item = CommonJoker.Joker
-    var rarity : String = "Common"
-    var edition : Edition  = .NoEdition
-    var stickers : JokerStickers = JokerStickers()
-    
-    init(_ joker: Item,_ rarity: String,_ edition: Edition,_ stickers: JokerStickers) {
+    var joker: Item = CommonJoker.Joker
+    var rarity: String = "Common"
+    var edition: Edition = .NoEdition
+    var stickers: JokerStickers = JokerStickers()
+
+    init(_ joker: Item, _ rarity: String, _ edition: Edition, _ stickers: JokerStickers) {
         self.joker = joker
         self.rarity = rarity
         self.edition = edition
         self.stickers = stickers
     }
-    
-    init(){
-        
+
+    init() {
+
     }
-    
+
 }
 
-class Card : Item {
-    var base : Cards
-    var enhancement : Enhancement?
-    var edition : Edition = .NoEdition
-    var seal : Seal = .NoSeal
-    
+class Card: Item {
+    var base: Cards
+    var enhancement: Enhancement?
+    var edition: Edition = .NoEdition
+    var seal: Seal = .NoSeal
+
     var rawValue: String {
         return "\(rank.rawValue) \(suit.rawValue)"
     }
@@ -44,19 +44,19 @@ class Card : Item {
         return base.ordinal
     }
 
-    var y : Int {
+    var y: Int {
         return base.y
     }
-    
-    init(_ base: Cards,_ enhancement: Enhancement?,_ edition: Edition,_ seal: Seal) {
+
+    init(_ base: Cards, _ enhancement: Enhancement?, _ edition: Edition, _ seal: Seal) {
         self.base = base
         self.enhancement = enhancement
         self.edition = edition
         self.seal = seal
     }
-    
-    var suit : Suit {
-        switch(base.rawValue.charAt(0)){
+
+    var suit: Suit {
+        switch base.rawValue.charAt(0) {
         case "C":
             return .Clubs
         case "H":
@@ -67,9 +67,9 @@ class Card : Item {
             return .Spades
         }
     }
-    
-    var rank : Rank {
-        switch(base.rawValue.charAt(2)){
+
+    var rank: Rank {
+        switch base.rawValue.charAt(2) {
         case "T":
             return .r_10
         case "J":
@@ -100,30 +100,30 @@ class Card : Item {
     }
 }
 
-class Option : Encodable, Identifiable {
-    let sticker : Edition?
-    let item : Item
-    var legendary : JokerData?
-    
-    init(sticker: Edition?, _  item: Item) {
+class Option: Encodable, Identifiable {
+    let sticker: Edition?
+    let item: Item
+    var legendary: JokerData?
+
+    init(sticker: Edition?, _ item: Item) {
         self.sticker = sticker
         self.item = item
     }
-    
+
     init(_ item: Item) {
         self.sticker = nil
         self.item = item
     }
-    
+
     func edition() -> Edition {
         sticker ?? .NoEdition
     }
-    
+
     enum CodingKeys: CodingKey {
         case sticker
         case item
     }
-    
+
     func encode(to encoder: any Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         if let sticker = sticker {
@@ -133,31 +133,31 @@ class Option : Encodable, Identifiable {
     }
 }
 
-class Pack : Encodable, Identifiable {
-    var type : PackType = .RETRY
-    var size : Int = 0
+class Pack: Encodable, Identifiable {
+    var type: PackType = .RETRY
+    var size: Int = 0
     var choices = 0
-    var options : [Option]
-    
-    init(_ type: PackType,_ size: Int,_ choices: Int, options: [Option]) {
+    var options: [Option]
+
+    init(_ type: PackType, _ size: Int, _ choices: Int, options: [Option]) {
         self.type = type
         self.size = size
         self.choices = choices
         self.options = options
     }
-    
-    init(_ type: PackType,_ size: Int,_ choices: Int) {
+
+    init(_ type: PackType, _ size: Int, _ choices: Int) {
         self.type = type
         self.size = size
         self.choices = choices
         self.options = []
     }
-    
-    var kind : PackKind {
+
+    var kind: PackKind {
         type.kind
     }
-    
-    func containsOption(_ name : String) -> Bool {
+
+    func containsOption(_ name: String) -> Bool {
         for option in options {
             if option.item.rawValue == name {
                 return true
@@ -168,58 +168,60 @@ class Pack : Encodable, Identifiable {
 }
 
 class ShopInstance {
-    var jokerRate : Double = 20.0
-    var tarotRate : Double = 4.0
-    var planetRate : Double = 4.0
-    var playingCardRate : Double = 0.0
-    var spectralRate : Double = 0.0
-    
-    init(_ jokerRate: Double,_ tarotRate: Double,_ planetRate: Double,_ playingCardRate: Double,_ spectralRate: Double) {
+    var jokerRate: Double = 20.0
+    var tarotRate: Double = 4.0
+    var planetRate: Double = 4.0
+    var playingCardRate: Double = 0.0
+    var spectralRate: Double = 0.0
+
+    init(
+        _ jokerRate: Double, _ tarotRate: Double, _ planetRate: Double, _ playingCardRate: Double,
+        _ spectralRate: Double
+    ) {
         self.jokerRate = jokerRate
         self.tarotRate = tarotRate
         self.planetRate = planetRate
         self.playingCardRate = playingCardRate
         self.spectralRate = spectralRate
     }
-    
+
     func getTotalRate() -> Double {
         jokerRate + tarotRate + planetRate + playingCardRate + spectralRate
     }
-    
+
 }
 
 class ShopItem {
-    var type : ItemType = .Tarot
-    var item : Item = Tarot.The_Fool
-    var jokerData : JokerData = JokerData()
-    
-    init(){
-        
+    var type: ItemType = .Tarot
+    var item: Item = Tarot.The_Fool
+    var jokerData: JokerData = JokerData()
+
+    init() {
+
     }
-    
-    init(_ type: ItemType,_ item: Item) {
+
+    init(_ type: ItemType, _ item: Item) {
         self.type = type
         self.item = item
         self.jokerData = JokerData()
     }
-    
-    init(_ type: ItemType,_ item: Item,_ jokerData: JokerData) {
+
+    init(_ type: ItemType, _ item: Item, _ jokerData: JokerData) {
         self.type = type
         self.item = item
         self.jokerData = jokerData
     }
 }
 
-
 class InstanceParams {
-    var deck : Deck
-    var stake : Stake
-    var showman : Bool
-    var sixesFactor : Int
-    var version : Int
-    var vouchers : Set<Voucher>
-    
-    init(){
+    var deck: Deck
+    var stake: Stake
+    var showman: Bool
+    var sixesFactor: Int
+    var version: Int
+    var vouchers: Set<Voucher>
+
+    init() {
         deck = Deck.RED_DECK
         stake = Stake.White_Stake
         showman = false
@@ -227,8 +229,8 @@ class InstanceParams {
         version = Version.v_101c.rawValue
         vouchers = Set<Voucher>()
     }
-    
-    init (_ deck: Deck,_ stake: Stake,_ showman: Bool,_ sixesFactor: Int,_ version: Version){
+
+    init(_ deck: Deck, _ stake: Stake, _ showman: Bool, _ sixesFactor: Int, _ version: Version) {
         self.deck = deck
         self.stake = stake
         self.showman = showman

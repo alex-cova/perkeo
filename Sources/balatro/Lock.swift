@@ -20,7 +20,7 @@ class Lock {
         return (lock[item.y] & (1 << item.ordinal)) != 0
     }
 
-    func initUnlocks(_ ante: Int,_  freshProfile: Bool) {
+    func initUnlocks(_ ante: Int, _ freshProfile: Bool) {
         if ante <= 1 || ante > 6 { return }
 
         if ante == 2 {
@@ -55,7 +55,7 @@ class Lock {
         if ante == 6 { unlock(Boss.The_Ox) }
     }
 
-    func initLocks(_ ante: Int,_ freshProfile: Bool,_ freshRun: Bool) {
+    func initLocks(_ ante: Int, _ freshProfile: Bool, _ freshRun: Bool) {
         if ante < 3 {
             lock(Boss.The_Tooth)
             lock(Boss.The_Eye)

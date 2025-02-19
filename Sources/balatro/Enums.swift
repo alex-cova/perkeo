@@ -1602,6 +1602,36 @@ enum Boss: String, CaseIterable, Item {
         6
     }
 
+    var startsWithT: Bool {
+        switch self {
+        case .The_Arm: return true
+        case .The_Club: return true
+        case .The_Eye: return true
+        case .The_Fish: return true
+        case .The_Flint: return true
+        case .The_Goad: return true
+        case .The_Head: return true
+        case .The_Hook: return true
+        case .The_House: return true
+        case .The_Manacle: return true
+        case .The_Mark: return true
+        case .The_Mouth: return true
+        case .The_Needle: return true
+        case .The_Ox: return true
+        case .The_Pillar: return true
+        case .The_Plant: return true
+        case .The_Psychic: return true
+        case .The_Serpent: return true
+        case .The_Tooth: return true
+        case .The_Wall: return true
+        case .The_Water: return true
+        case .The_Wheel: return true
+        case .The_Windo: return true
+        default: return false
+
+        }
+    }
+
     var ordinal: Int {
         switch self {
         case .The_Arm:
