@@ -5,8 +5,6 @@
 //  Created by Alex on 03/01/25.
 //
 
-
-
 public class Balatro {
 
     let options: [Item] = [
@@ -177,7 +175,7 @@ public class Balatro {
         let inst = Functions(seed, maxDepth)
 
         inst.setParams(InstanceParams(deck, stake, false, 1, version))
-        inst.initLocks(1, false, false)
+        inst.initLocks(1, false, true)
         inst.firstLock()
 
         for i in 0..<options.count {
@@ -248,7 +246,7 @@ public class Balatro {
             for _ in (1...numPacks) {
                 let pack = inst.nextPack(a)
                 let packInfo = inst.packInfo(pack)
-                var options: [Option] = []
+                var options: [EditionItem] = []
 
                 switch pack.kind {
                 case .Celestial:
@@ -258,7 +256,7 @@ public class Balatro {
 
                     let cards = inst.nextCelestialPack(packInfo.size, a)
                     for c in 0..<packInfo.size {
-                        options.append(Option(cards[c]))
+                        options.append(EditionItem(cards[c]))
                     }
                 case .Arcana:
                     if !analyzeArcana {
@@ -267,7 +265,7 @@ public class Balatro {
 
                     let cards = inst.nextArcanaPack(packInfo.size, a)
                     for c in 0..<packInfo.size {
-                        options.append(Option(cards[c]))
+                        options.append(EditionItem(cards[c]))
 
                     }
                 case .Buffoon:
@@ -281,7 +279,7 @@ public class Balatro {
                         let joker = cards[c]
                         let sticker = Balatro.getSticker(joker)
 
-                        options.append(Option(sticker: sticker, joker.joker))
+                        options.append(EditionItem(edition: sticker, joker.joker))
 
                     }
                 case .Spectral:
@@ -291,7 +289,7 @@ public class Balatro {
 
                     let cards = inst.nextSpectralPack(packInfo.size, a)
                     for c in 0..<packInfo.size {
-                        options.append(Option(cards[c]))
+                        options.append(EditionItem(cards[c]))
                     }
                 case .Standard:
                     if !analyzeStandard {
@@ -301,13 +299,7 @@ public class Balatro {
                     let cards = inst.nextStandardPack(packInfo.size, a)
                     for c in 0..<packInfo.size {
                         let card = cards[c]
-                        options.append(Option(card))
-                    }
-                }
-
-                for option in options {
-                    if option.item.rawValue == Specials.THE_SHOUL.rawValue {
-                        option.legendary = play.nextLegendary()
+                        options.append(EditionItem(card))
                     }
                 }
 

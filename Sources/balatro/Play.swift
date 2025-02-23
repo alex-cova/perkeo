@@ -140,7 +140,7 @@ class Ante: Encodable, Identifiable {
     }
 
     func legendaryJokers() -> [Item] {
-        _ = hasLegendary(.Perke)
+        _ = hasLegendary(.Perkeo)
 
         guard let legendaries = legendaries else {
             return []
@@ -231,7 +231,7 @@ class Ante: Encodable, Identifiable {
         shopQueue.append(SearchableItem(item: value.item, sticker))
     }
 
-    func addPack(pack: Pack, options: [Option]) {
+    func addPack(pack: Pack, options: [EditionItem]) {
         pack.options = options
         packs.append(pack)
     }
@@ -244,7 +244,7 @@ class Ante: Encodable, Identifiable {
         } else {
             legendaries = []
 
-            let souls = countInPack(Specials.THE_SHOUL)
+            let souls = countInPack(Specials.THE_SOUL)
 
             for _ in (0..<souls) {
                 legendaries!.append(

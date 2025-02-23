@@ -2,10 +2,10 @@ import Foundation
 
 func asyncSearch() async -> String? {
     let run = Balatro()
-        .configureForSpeed(selections: [LegendaryJoker.Perke])
+        .configureForSpeed(selections: [LegendaryJoker.Perkeo])
         .performAnalysis(seed: Balatro.generateRandomString(), maxDepth: 1)
 
-    if run.contains(LegendaryJoker.Perke) && run.contains(LegendaryJoker.Triboulet) {
+    if run.contains(LegendaryJoker.Perkeo) && run.contains(LegendaryJoker.Triboulet) {
         return run.seed
     }
 

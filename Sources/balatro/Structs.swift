@@ -100,23 +100,18 @@ class Card: Item {
     }
 }
 
-class Option: Encodable, Identifiable {
-    let sticker: Edition?
+class EditionItem: Encodable, Identifiable, Item {
+    let edition: Edition
     let item: Item
-    var legendary: JokerData?
 
-    init(sticker: Edition?, _ item: Item) {
-        self.sticker = sticker
+    init(edition: Edition, _ item: Item) {
+        self.edition = edition
         self.item = item
     }
 
     init(_ item: Item) {
-        self.sticker = nil
+        self.edition = .NoEdition
         self.item = item
-    }
-
-    func edition() -> Edition {
-        sticker ?? .NoEdition
     }
 
     enum CodingKeys: CodingKey {
@@ -126,10 +121,22 @@ class Option: Encodable, Identifiable {
 
     func encode(to encoder: any Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        if let sticker = sticker {
-            try container.encode(sticker, forKey: .sticker)
+        if  edition != .NoEdition {
+            try container.encode(edition, forKey: .sticker)
         }
         try container.encode(item.rawValue, forKey: .item)
+    }
+
+    var rawValue: String {
+        return item.rawValue
+    }
+
+    var ordinal: Int {
+        return item.ordinal
+    }
+
+    var y: Int {
+        return item.y
     }
 }
 
@@ -137,9 +144,9 @@ class Pack: Encodable, Identifiable {
     var type: PackType = .RETRY
     var size: Int = 0
     var choices = 0
-    var options: [Option]
+    var options: [EditionItem]
 
-    init(_ type: PackType, _ size: Int, _ choices: Int, options: [Option]) {
+    init(_ type: PackType, _ size: Int, _ choices: Int, options: [EditionItem]) {
         self.type = type
         self.size = size
         self.choices = choices

@@ -106,10 +106,14 @@ class Functions: Lock {
 
     // Card Generators
     func nextTarot(_ source: String, _ ante: Int, _ soulable: Bool) -> Item {
-        if soulable && (params.showman || !isLocked(Specials.THE_SHOUL))
+        if soulable && (params.showman || !isLocked(Specials.THE_SOUL))
             && random(Functions.soul_TarotArr[ante]) > 0.997
         {
-            return Specials.THE_SHOUL
+             let data =  nextJoker("sou", joker1Arr: Functions.joker1SouArr, joker2Arr: Functions.joker2SouArr, 
+                joker3Arr: Functions.joker3SouArr, joker4Arr: Functions.joker4SouArr, rarityArr: Functions.raritySouArr, 
+                editionArr: Functions.editionSouArr, ante, true)
+
+                return EditionItem(edition: data.edition, data.joker)
         }
         return randchoice(source, Functions.TAROTS)
     }
@@ -125,16 +129,28 @@ class Functions: Lock {
 
     func nextSpectral(_ source: String, _ ante: Int, _ soulable: Bool) -> Item {
         if soulable {
-            if random(Functions.soul_SpectralArr[ante]) < 0.997 {
-                return randchoice(source, Functions.SPECTRALS)
+            var forcedKey : Item?
+            var edition : Edition?
+
+            if ((params.showman || !isLocked(Specials.THE_SOUL)) && random(Functions.soul_SpectralArr[ante]) > 0.997) {
+                let data =  nextJoker("sou", joker1Arr: Functions.joker1SouArr, joker2Arr: Functions.joker2SouArr, 
+                joker3Arr: Functions.joker3SouArr, joker4Arr: Functions.joker4SouArr, rarityArr: Functions.raritySouArr, 
+                editionArr: Functions.editionSouArr, ante, true)
+
+                forcedKey = data.joker
+                edition = data.edition
             }
 
-            if params.showman || !isLocked(Specials.THE_SHOUL) {
-                return Specials.BLACKHOLE
+            if ((params.showman || !isLocked(Specials.BLACKHOLE)) && random(Functions.soul_SpectralArr[ante]) > 0.997) {
+                forcedKey = Specials.BLACKHOLE;
             }
 
-            if params.showman || !isLocked(Specials.THE_SHOUL) {
-                return Specials.THE_SHOUL
+            if let key = forcedKey, let e = edition {
+                return EditionItem(edition: e, key)
+            }
+
+            if (forcedKey != nil) {
+                return forcedKey!
             }
         }
 
@@ -464,6 +480,10 @@ class Functions: Lock {
         }
 
         for p in pack {
+            if p is EditionItem {
+                continue
+            }
+
             unlock(p)
         }
 
@@ -507,6 +527,9 @@ class Functions: Lock {
         }
 
         for p in pack {
+            if p is EditionItem {
+                continue
+            }
             unlock(p)
         }
 

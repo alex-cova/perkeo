@@ -195,12 +195,12 @@ enum Stake: String, CaseIterable, Item {
 
 enum Specials: String, CaseIterable, Item {
     case BLACKHOLE = "Black Hole"
-    case THE_SHOUL = "The Soul"
+    case THE_SOUL = "The Soul"
 
     var ordinal: Int {
         switch self {
         case .BLACKHOLE: return 0
-        case .THE_SHOUL: return 1
+        case .THE_SOUL: return 1
         }
     }
 
@@ -1099,7 +1099,7 @@ enum LegendaryJoker: String, CaseIterable, Item, Joker {
     case Triboulet = "Triboulet"
     case Yorick = "Yorick"
     case Chicot = "Chicot"
-    case Perke = "Perkeo"
+    case Perkeo = "Perkeo"
 
     var ordinal: Int {
         switch self {
@@ -1107,7 +1107,7 @@ enum LegendaryJoker: String, CaseIterable, Item, Joker {
         case .Triboulet: return 1
         case .Yorick: return 2
         case .Chicot: return 3
-        case .Perke: return 4
+        case .Perkeo: return 4
         }
     }
 
