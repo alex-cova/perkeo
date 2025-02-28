@@ -5,7 +5,7 @@
 //  Created by Alex on 03/01/25.
 //
 
-class Functions: Lock {
+public class Functions: Lock {
 
     static let TAROTS: [Tarot] = Tarot.allCases
     static let PLANETS: [Planet] = Planet.allCases
@@ -85,26 +85,47 @@ class Functions: Lock {
         return items[idx - 1]
     }
 
+// public <T extends Item> T randchoice(String id, @NotNull List<T> items) {
+//         T item = items.get(randint(id, items.size() - 1));
+
+//         if (params.isShowman()) return item;
+
+//         if ("RETRY".equals(item.getName()) || isLocked(item)) {
+//             int resample = 2;
+//             while (true) {
+//                 item = items.get(randint(id + "_resample" + resample, items.size() - 1));
+//                 resample++;
+//                 if ((!isLocked(item) && !"RETRY".equals(item.getName())) || resample > 1000) {
+//                     return item;
+//                 }
+//             }
+//         }
+//         return item;
+//     }
+
     func randchoice<T: Item>(_ ID: String, _ items: [T]) -> T {
         var item = items[randint(ID, 0, items.count - 1)]
-        if !params.showman && isLocked(item)
-            || ("RETRY" == item.rawValue || "RETRY2" == item.rawValue)
-        {
+
+        if params.showman {
+            return item
+        }
+
+        var retry = ("RETRY" == item.rawValue || "RETRY2" == item.rawValue)
+
+        if isLocked(item) || retry {
             var resample = 2
             while true {
                 item = items[randint("\(ID)_resample\(resample)", 0, items.count - 1)]
                 resample += 1
-                if (!isLocked(item) && ("RETRY" != item.rawValue || "RETRY2" != item.rawValue))
-                    || resample > 1000
-                {
+                retry = ("RETRY" == item.rawValue || "RETRY2" == item.rawValue)
+                if (!isLocked(item) && !retry) || resample > 1000 {
                     return item
                 }
             }
         }
         return item
     }
-
-    // Card Generators
+    
     func nextTarot(_ source: String, _ ante: Int, _ soulable: Bool) -> Item {
         if soulable && (params.showman || !isLocked(Specials.THE_SOUL))
             && random(Functions.soul_TarotArr[ante]) > 0.997
@@ -653,8 +674,8 @@ class Functions: Lock {
     static let planetShoArr: [String] = construct(pattern: "Planetsho%d")
     static let planetpl1lArr: [String] = construct(pattern: "Planetpl1%d")
     static let tarotShoArr: [String] = construct(pattern: "Tarotsho%d")
-    static let tarotAr1Arr: [String] = construct(pattern: "Tarotar%d")
-    static let tarotarArr: [String] = construct(pattern: "Tarotar1%d")
+    static let tarotAr1Arr: [String] = construct(pattern: "Tarotar1%d")
+    static let tarotarArr: [String] = construct(pattern: "Tarotar%d")
 
     static let spectralShoArr: [String] = construct(pattern: "Spectralsho%d")
     static let spectralAr2Arr: [String] = construct(pattern: "Spectralar2%d")

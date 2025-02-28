@@ -6,16 +6,16 @@
 //
 import Foundation
 
-class Run: Encodable {
-    let seed: String
-    let antes: [Ante]
+public class Run: Encodable {
+    public let seed: String
+    public let antes: [Ante]
 
     init(seed: String, antes: [Ante]) {
         self.seed = seed
         self.antes = antes
     }
 
-    func toJson() -> String {
+    public func toJson() -> String {
         do {
             return try String(data: JSONEncoder().encode(self), encoding: .utf8)!
         } catch {
@@ -25,7 +25,7 @@ class Run: Encodable {
         return "Failed"
     }
 
-    func contains(_ item: Item) -> Bool {
+    public func contains(_ item: Item) -> Bool {
         for ante in antes {
             if ante.contains(item) {
                 return true
@@ -35,7 +35,7 @@ class Run: Encodable {
         return false
     }
 
-    func count(_ item: Item) -> Int? {
+    public func count(_ item: Item) -> Int? {
         var count = 0
 
         for ante in antes {
@@ -51,7 +51,7 @@ class Run: Encodable {
         return count
     }
 
-    func jokers() -> [JokerCount] {
+    public func jokers() -> [JokerCount] {
         var jokerList: [String: JokerCount] = [:]
 
         for ante in antes {
@@ -67,7 +67,7 @@ class Run: Encodable {
         return jokerList.values.sorted { $0.count > $1.count || $0.joker is LegendaryJoker }
     }
 
-    func tags() -> [Tag] {
+   public  func tags() -> [Tag] {
         var tags: Set<Tag> = []
 
         for ante in antes {
@@ -77,7 +77,7 @@ class Run: Encodable {
         return Array(tags)
     }
 
-    func vouchers() -> [Voucher] {
+    public func vouchers() -> [Voucher] {
         var vouchers: Set<Voucher> = []
 
         for ante in antes {
@@ -87,7 +87,7 @@ class Run: Encodable {
         return Array(vouchers)
     }
 
-    func spectrals() -> [Spectral] {
+    public func spectrals() -> [Spectral] {
         var spectrals: Set<Spectral> = []
 
         for ante in antes {
@@ -106,15 +106,15 @@ class Run: Encodable {
     }
 }
 
-struct JokerCount: Identifiable {
-    var id: String { joker.rawValue }
+public struct JokerCount: Identifiable {
+    public var id: String { joker.rawValue }
     let joker: Item
     var count: Int
 }
 
-class Ante: Encodable, Identifiable {
+public class Ante: Encodable, Identifiable {
 
-    var id: Int { ante }
+    public var id: Int { ante }
     let ante: Int
     let functions: Functions
     var shopQueue: [SearchableItem] = []
@@ -139,7 +139,7 @@ class Ante: Encodable, Identifiable {
         case voucher
     }
 
-    func legendaryJokers() -> [Item] {
+    public func legendaryJokers() -> [Item] {
         _ = hasLegendary(.Perkeo)
 
         guard let legendaries = legendaries else {
@@ -149,7 +149,7 @@ class Ante: Encodable, Identifiable {
         return legendaries
     }
 
-    func tarots() -> [Item] {
+    public func tarots() -> [Item] {
         var tarotList: [Item] = []
 
         for pack in packs {
@@ -163,7 +163,7 @@ class Ante: Encodable, Identifiable {
         return tarotList
     }
 
-    func planets() -> [Item] {
+    public func planets() -> [Item] {
         var planetList: [Item] = []
 
         for pack in packs {
@@ -177,7 +177,7 @@ class Ante: Encodable, Identifiable {
         return planetList
     }
 
-    func spectrals() -> [Item] {
+    public func spectrals() -> [Item] {
         var spectralList: [Item] = []
 
         for pack in packs {
@@ -191,7 +191,7 @@ class Ante: Encodable, Identifiable {
         return spectralList
     }
 
-    func jokers() -> [Item] {
+    public func jokers() -> [Item] {
         var jokerList: [Item] = []
 
         for l in LegendaryJoker.allCases {
@@ -236,7 +236,7 @@ class Ante: Encodable, Identifiable {
         packs.append(pack)
     }
 
-    func hasLegendary(_ joker: LegendaryJoker) -> Bool {
+   public  func hasLegendary(_ joker: LegendaryJoker) -> Bool {
         if let legendaries = legendaries {
             return legendaries.contains {
                 $0 == joker
@@ -264,7 +264,7 @@ class Ante: Encodable, Identifiable {
         }
     }
 
-    func nextLegendary() -> JokerData? {
+    public func nextLegendary() -> JokerData? {
         let j = functions.nextJoker(
             "sou", joker1Arr: Functions.joker1SouArr,
             joker2Arr: Functions.joker2SouArr,

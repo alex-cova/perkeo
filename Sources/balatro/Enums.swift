@@ -7,21 +7,21 @@
 
 import Foundation
 
-enum PackKind {
+public enum PackKind {
     case Arcana, Celestial, Standard, Buffoon, Spectral
 }
 
-protocol Item: Encodable {
+public protocol Item: Encodable {
     var rawValue: String { get }
     var ordinal: Int { get }
     var y: Int { get }
 }
 
-protocol Joker {
+public protocol Joker {
     var type: JokerType { get }
 }
 
-enum JokerType {
+public enum JokerType : Sendable {
     case LEGENDARY
     case RARE
     case UNCOMMON
@@ -29,7 +29,7 @@ enum JokerType {
 
 }
 
-enum PackType: String, CaseIterable, Item {
+public enum PackType: String, CaseIterable, Item, Sendable {
     case RETRY = "RETRY"
 
     case Arcana_Pack = "Arcana Pack"
@@ -52,15 +52,15 @@ enum PackType: String, CaseIterable, Item {
     case Jumbo_Spectral_Pack = "Jumbo Spectral Pack"
     case Mega_Spectral_Pack = "Mega Spectral Pack"
 
-    var ordinal: Int {
+    public var ordinal: Int {
         0
     }
 
-    var y: Int {
+    public var y: Int {
         0
     }
 
-    var value: Double {
+    public var value: Double {
         switch self {
         case .RETRY:
             return 22.42
@@ -85,7 +85,7 @@ enum PackType: String, CaseIterable, Item {
         }
     }
 
-    var kind: PackKind {
+    public var kind: PackKind {
         switch self {
         case .Arcana_Pack, .Jumbo_Arcana_Pack, .Mega_Arcana_Pack:
             return .Arcana
@@ -102,44 +102,44 @@ enum PackType: String, CaseIterable, Item {
         }
     }
 
-    var isMega: Bool {
+   public  var isMega: Bool {
         return self == .Mega_Arcana_Pack || self == .Mega_Celestial_Pack
             || self == .Mega_Standard_Pack || self == .Mega_Buffoon_Pack
             || self == .Mega_Spectral_Pack
     }
 
-    var isJumbo: Bool {
+    public var isJumbo: Bool {
         return self == .Jumbo_Arcana_Pack || self == .Jumbo_Celestial_Pack
             || self == .Jumbo_Standard_Pack || self == .Jumbo_Buffoon_Pack
             || self == .Jumbo_Spectral_Pack
     }
 
-    var isBuffoon: Bool {
+    public var isBuffoon: Bool {
         return self == .Buffoon_Pack || self == .Jumbo_Buffoon_Pack || self == .Mega_Buffoon_Pack
     }
 
-    var isSpectral: Bool {
+    public var isSpectral: Bool {
         return self == .Spectral_Pack || self == .Jumbo_Spectral_Pack || self == .Mega_Spectral_Pack
     }
 }
 
-enum Seal: String, CaseIterable, Item {
+public enum Seal: String, CaseIterable, Item, Sendable {
     case NoSeal = "No Seal"
     case RedSeal = "Red Seal"
     case BlueSeal = "Blue Seal"
     case GoldSeal = "Gold Seal"
     case PurpleSeal = "Purple Seal"
 
-    var ordinal: Int {
+    public var ordinal: Int {
         0
     }
 
-    var y: Int {
+    public var y: Int {
         0
     }
 }
 
-enum Edition: String, CaseIterable, Item {
+public enum Edition: String, CaseIterable, Item, Sendable {
     case Negative = "Negative"
     case Polychrome = "Polychrome"
     case Holographic = "Holographic"
@@ -149,32 +149,32 @@ enum Edition: String, CaseIterable, Item {
     case Perishable = "Perishable"
     case Rental = "Rental"
 
-    var ordinal: Int {
+    public var ordinal: Int {
         0
     }
 
-    var y: Int {
+    public var y: Int {
         0
     }
 }
 
-enum ItemType: String, CaseIterable, Item {
+public enum ItemType: String, CaseIterable, Item, Sendable {
     case Joker = "Joker"
     case Tarot = "Tarot"
     case Planet = "Planet"
     case Spectral = "Spectral"
     case PlayingCard = "Playing Card"
 
-    var ordinal: Int {
+    public var ordinal: Int {
         0
     }
 
-    var y: Int {
+    public var y: Int {
         0
     }
 }
 
-enum Stake: String, CaseIterable, Item {
+public enum Stake: String, CaseIterable, Item, Sendable {
     case White_Stake = "White Stake"
     case Red_Stake = "Red Stake"
     case Green_Stake = "Green Stake"
@@ -184,32 +184,32 @@ enum Stake: String, CaseIterable, Item {
     case Orange_Stake = "Orange Stake"
     case Gold_Stake = "Gold Stake"
 
-    var ordinal: Int {
+   public  var ordinal: Int {
         0
     }
 
-    var y: Int {
+    public var y: Int {
         0
     }
 }
 
-enum Specials: String, CaseIterable, Item {
+public enum Specials: String, CaseIterable, Item, Sendable {
     case BLACKHOLE = "Black Hole"
     case THE_SOUL = "The Soul"
 
-    var ordinal: Int {
+    public var ordinal: Int {
         switch self {
         case .BLACKHOLE: return 0
         case .THE_SOUL: return 1
         }
     }
 
-    var y: Int {
+    public var y: Int {
         9
     }
 }
 
-enum Voucher: String, CaseIterable, Item {
+public enum Voucher: String, CaseIterable, Item, Sendable {
     case Overstock = "Overstock"
     case Overstock_Plus = "Overstock Plus"
     case Clearance_Sale = "Clearance Sale"
@@ -243,7 +243,7 @@ enum Voucher: String, CaseIterable, Item {
     case Paint_Brush = "Paint Brush"
     case Palett = "Palette"
 
-    var ordinal: Int {
+    public var ordinal: Int {
         switch self {
         case .Overstock: return 0
         case .Overstock_Plus: return 1
@@ -281,18 +281,18 @@ enum Voucher: String, CaseIterable, Item {
         }
     }
 
-    var y: Int {
+    public var y: Int {
         7
     }
 }
 
-enum Version: Int, CaseIterable {
+public enum Version: Int, CaseIterable, Sendable {
     case v_100n = 10014
     case v_101c = 10103
     case v_101f = 10106
 }
 
-enum UnCommonJoker101C: String, CaseIterable, Item, Joker {
+public enum UnCommonJoker101C: String, CaseIterable, Item, Joker, Sendable {
     case Joker_Stencil = "Joker Stencil"
     case Four_Fingers = "Four Fingers"
     case Mime = "Mime"
@@ -358,7 +358,7 @@ enum UnCommonJoker101C: String, CaseIterable, Item, Joker {
     case Astronomer = "Astronomer"
     case Bootstraps = "Bootstraps"
 
-    var ordinal: Int {
+    public var ordinal: Int {
         switch self {
         case .Joker_Stencil: return 0
         case .Four_Fingers: return 1
@@ -427,16 +427,16 @@ enum UnCommonJoker101C: String, CaseIterable, Item, Joker {
         }
     }
 
-    var y: Int {
+    public var y: Int {
         1
     }
 
-    var type: JokerType {
+    public var type: JokerType {
         return .UNCOMMON
     }
 }
 
-enum UnCommonJoker100: String, CaseIterable, Item, Joker {
+public enum UnCommonJoker100: String, CaseIterable, Item, Joker, Sendable {
     case Joker_Stencil = "Joker Stencil"
     case Four_Fingers = "Four Fingers"
     case Mime = "Mime"
@@ -504,7 +504,7 @@ enum UnCommonJoker100: String, CaseIterable, Item, Joker {
     case Burnt_Joker = "Burnt Joker"
     case Bootstraps = "Bootstraps"
 
-    var ordinal: Int {
+    public var ordinal: Int {
         switch self {
         case .Joker_Stencil: return 0
         case .Four_Fingers: return 1
@@ -575,16 +575,16 @@ enum UnCommonJoker100: String, CaseIterable, Item, Joker {
         }
     }
 
-    var y: Int {
+    public var y: Int {
         1
     }
 
-    var type: JokerType {
+    public var type: JokerType {
         return .UNCOMMON
     }
 }
 
-enum UnCommonJoker: String, CaseIterable, Item, Joker {
+public enum UnCommonJoker: String, CaseIterable, Item, Joker, Sendable {
     case Joker_Stencil = "Joker Stencil"
     case Four_Fingers = "Four Fingers"
     case Mime = "Mime"
@@ -650,7 +650,7 @@ enum UnCommonJoker: String, CaseIterable, Item, Joker {
     case Astronomer = "Astronomer"
     case Bootstrap = "Bootstraps"
 
-    var ordinal: Int {
+    public var ordinal: Int {
         switch self {
         case .Joker_Stencil: return 0
         case .Four_Fingers: return 1
@@ -719,16 +719,16 @@ enum UnCommonJoker: String, CaseIterable, Item, Joker {
         }
     }
 
-    var y: Int {
+    public var y: Int {
         1
     }
 
-    var type: JokerType {
+    public var type: JokerType {
         return .UNCOMMON
     }
 }
 
-enum Tarot: String, CaseIterable, Item {
+public enum Tarot: String, CaseIterable, Item, Sendable {
     case The_Fool = "The Fool"
     case The_Magician = "The Magician"
     case The_High_Priestess = "The High Priestess"
@@ -752,7 +752,7 @@ enum Tarot: String, CaseIterable, Item {
     case Judgement = "Judgement"
     case The_World = "The World"
 
-    var ordinal: Int {
+    public var ordinal: Int {
         switch self {
         case .The_Fool: return 0
         case .The_Magician: return 1
@@ -779,12 +779,12 @@ enum Tarot: String, CaseIterable, Item {
         }
     }
 
-    var y: Int {
+    public var y: Int {
         4
     }
 }
 
-enum Tag: String, CaseIterable, Item {
+public enum Tag: String, CaseIterable, Item, Sendable {
     case Uncommon_Tag = "Uncommon Tag"
     case Rare_Tag = "Rare Tag"
     case Negative_Tag = "Negative Tag"
@@ -810,7 +810,7 @@ enum Tag: String, CaseIterable, Item {
     case Orbital_Tag = "Orbital Tag"
     case Economy_Tag = "Economy Tag"
 
-    var ordinal: Int {
+    public var ordinal: Int {
         switch self {
         case .Uncommon_Tag: return 0
         case .Rare_Tag: return 1
@@ -839,12 +839,12 @@ enum Tag: String, CaseIterable, Item {
         }
     }
 
-    var y: Int {
+    public var y: Int {
         8
     }
 }
 
-enum Spectral: String, CaseIterable, Item {
+public enum Spectral: String, CaseIterable, Item, Sendable {
     case Familiar = "Familiar"
     case Grim = "Grim"
     case Incantation = "Incantation"
@@ -864,7 +864,7 @@ enum Spectral: String, CaseIterable, Item {
     case RETRY = "RETRY"
     case RETRY2 = "RETRY2"
 
-    var ordinal: Int {
+    public var ordinal: Int {
         switch self {
         case .Familiar: return 0
         case .Grim: return 1
@@ -887,12 +887,12 @@ enum Spectral: String, CaseIterable, Item {
         }
     }
 
-    var y: Int {
+    public var y: Int {
         5
     }
 }
 
-enum RareJoker101C: String, CaseIterable, Item, Joker {
+public enum RareJoker101C: String, CaseIterable, Item, Joker, Sendable {
     case DNA = "DNA"
     case Vampire = "Vampire"
     case Vagabond = "Vagabond"
@@ -914,7 +914,7 @@ enum RareJoker101C: String, CaseIterable, Item, Joker {
     case Drivers_License = "Drivers License"
     case Burnt_Joke = "Burnt Joker"
 
-    var ordinal: Int {
+    public var ordinal: Int {
         switch self {
         case .DNA: return 0
         case .Vampire: return 1
@@ -939,16 +939,16 @@ enum RareJoker101C: String, CaseIterable, Item, Joker {
         }
     }
 
-    var y: Int {
+    public var y: Int {
         2
     }
 
-    var type: JokerType {
+    public var type: JokerType {
         return .RARE
     }
 }
 
-enum RareJoker100: String, CaseIterable, Item, Joker {
+public enum RareJoker100: String, CaseIterable, Item, Joker, Sendable {
     case DNA = "DNA"
     case Sixth_Sense = "Sixth Sense"
     case Seance = "Seance"
@@ -969,7 +969,7 @@ enum RareJoker100: String, CaseIterable, Item, Joker {
     case Brainstorm = "Brainstorm"
     case Drivers_License = "Drivers Licens"
 
-    var ordinal: Int {
+    public var ordinal: Int {
         switch self {
         case .DNA: return 0
         case .Sixth_Sense: return 1
@@ -993,16 +993,16 @@ enum RareJoker100: String, CaseIterable, Item, Joker {
         }
     }
 
-    var y: Int {
+    public var y: Int {
         2
     }
 
-    var type: JokerType {
+    public var type: JokerType {
         return .RARE
     }
 }
 
-enum RareJoker: String, CaseIterable, Item, Joker {
+public enum RareJoker: String, CaseIterable, Item, Joker, Sendable {
     case DNA = "DNA"
     case Vagabond = "Vagabond"
     case Baron = "Baron"
@@ -1024,7 +1024,7 @@ enum RareJoker: String, CaseIterable, Item, Joker {
     case Drivers_License = "Drivers License"
     case Burnt_Joke = "Burnt Joker"
 
-    var ordinal: Int {
+    public var ordinal: Int {
         switch self {
         case .DNA: return 0
         case .Vagabond: return 1
@@ -1049,16 +1049,16 @@ enum RareJoker: String, CaseIterable, Item, Joker {
         }
     }
 
-    var y: Int {
+    public var y: Int {
         2
     }
 
-    var type: JokerType {
+    public var type: JokerType {
         return .RARE
     }
 }
 
-enum Planet: String, CaseIterable, Item {
+public enum Planet: String, CaseIterable, Item, Sendable {
     case Mercury = "Mercury"
     case Venus = "Venus"
     case Earth = "Earth"
@@ -1072,7 +1072,7 @@ enum Planet: String, CaseIterable, Item {
     case Ceres = "Ceres"
     case Eri = "Eris"
 
-    var ordinal: Int {
+    public var ordinal: Int {
         switch self {
         case .Mercury: return 0
         case .Venus: return 1
@@ -1089,19 +1089,19 @@ enum Planet: String, CaseIterable, Item {
         }
     }
 
-    var y: Int {
+    public var y: Int {
         3
     }
 }
 
-enum LegendaryJoker: String, CaseIterable, Item, Joker {
+public enum LegendaryJoker: String, CaseIterable, Item, Joker, Sendable {
     case Canio = "Canio"
     case Triboulet = "Triboulet"
     case Yorick = "Yorick"
     case Chicot = "Chicot"
     case Perkeo = "Perkeo"
 
-    var ordinal: Int {
+    public var ordinal: Int {
         switch self {
         case .Canio: return 0
         case .Triboulet: return 1
@@ -1111,16 +1111,16 @@ enum LegendaryJoker: String, CaseIterable, Item, Joker {
         }
     }
 
-    var y: Int {
+    public var y: Int {
         12
     }
 
-    var type: JokerType {
+    public var type: JokerType {
         return .LEGENDARY
     }
 }
 
-enum Enhancement: String, CaseIterable, Item {
+public enum Enhancement: String, CaseIterable, Item, Sendable {
     case Bonus = "Bonus"
     case Mult = "Mult"
     case Wild = "Wild"
@@ -1130,16 +1130,16 @@ enum Enhancement: String, CaseIterable, Item {
     case Gold = "Gold"
     case Luck = "Lucky"
 
-    var ordinal: Int {
+    public var ordinal: Int {
         0
     }
 
-    var y: Int {
+    public var y: Int {
         0
     }
 }
 
-enum Deck: String, CaseIterable, Item {
+public enum Deck: String, CaseIterable, Item, Sendable {
     case RED_DECK = "Red Deck"
     case BLUE_DECK = "Blue Deck"
     case YELLOW_DECK = "Yellow Deck"
@@ -1156,16 +1156,16 @@ enum Deck: String, CaseIterable, Item {
     case PLASMA_DECK = "Plasma Deck"
     case ERRATIC_DECK = "Erratic Deck"
 
-    var ordinal: Int {
+    public var ordinal: Int {
         0
     }
 
-    var y: Int {
+    public var y: Int {
         0
     }
 }
 
-enum CommonJoker100: String, CaseIterable, Item, Joker {
+public enum CommonJoker100: String, CaseIterable, Item, Joker, Sendable {
     case Joker = "Joker"
     case Greedy_Joker = "Greedy Joker"
     case Lusty_Joker = "Lusty Joker"
@@ -1227,7 +1227,7 @@ enum CommonJoker100: String, CaseIterable, Item, Joker {
     case Hanging_Chad = "Hanging Chad"
     case Shoot_the_Moon = "Shoot the Moon"
 
-    var ordinal: Int {
+    public var ordinal: Int {
         switch self {
         case .Joker: return 0
         case .Greedy_Joker: return 1
@@ -1292,16 +1292,16 @@ enum CommonJoker100: String, CaseIterable, Item, Joker {
         }
     }
 
-    var y: Int {
+    public var y: Int {
         return 0
     }
 
-    var type: JokerType {
+    public var type: JokerType {
         return .COMMO
     }
 }
 
-enum CommonJoker: String, CaseIterable, Item, Joker {
+public enum CommonJoker: String, CaseIterable, Item, Joker, Sendable {
     case Joker = "Joker"
     case Greedy_Joker = "Greedy Joker"
     case Lusty_Joker = "Lusty Joker"
@@ -1364,7 +1364,7 @@ enum CommonJoker: String, CaseIterable, Item, Joker {
     case Hanging_Chad = "Hanging Chad"
     case Shoot_the_Moo = "Shoot the Moon"
 
-    var ordinal: Int {
+    public var ordinal: Int {
         switch self {
         case .Joker: return 0
         case .Greedy_Joker: return 1
@@ -1430,16 +1430,16 @@ enum CommonJoker: String, CaseIterable, Item, Joker {
         }
     }
 
-    var y: Int {
+    public var y: Int {
         return 0
     }
 
-    var type: JokerType {
+    public var type: JokerType {
         return .COMMO
     }
 }
 
-enum Packs: String, CaseIterable, Item {
+public enum Packs: String, CaseIterable, Item, Sendable {
     case RETRY = "RETRY"
     case Arcana_Pack = "Arcana Pack"
     case Jumbo_Arcana_Pack = "Jumbo Arcana Pack"
@@ -1478,7 +1478,7 @@ enum Packs: String, CaseIterable, Item {
         }
     }
 
-    var ordinal: Int {
+    public var ordinal: Int {
         switch self {
         case .RETRY: return 0
         case .Arcana_Pack: return 1
@@ -1499,13 +1499,13 @@ enum Packs: String, CaseIterable, Item {
         }
     }
 
-    var y: Int {
+    public var y: Int {
         return -1
     }
 
 }
 
-enum Cards: String, CaseIterable, Item {
+public enum Cards: String, CaseIterable, Item, Sendable {
     case C_2 = "C_2"
     case C_3 = "C_3"
     case C_4 = "C_4"
@@ -1559,16 +1559,16 @@ enum Cards: String, CaseIterable, Item {
     case S_Q = "S_Q"
     case S_T = "S_T"
 
-    var ordinal: Int {
+    public var ordinal: Int {
         return 0
     }
 
-    var y: Int {
+    public var y: Int {
         return 0
     }
 }
 
-enum Boss: String, CaseIterable, Item {
+public enum Boss: String, CaseIterable, Item, Sendable {
     case The_Arm = "The Arm"
     case The_Club = "The Club"
     case The_Eye = "The Eye"
@@ -1598,7 +1598,7 @@ enum Boss: String, CaseIterable, Item {
     case The_Wheel = "The Wheel"
     case The_Windo = "The Window"
 
-    var y: Int {
+    public var y: Int {
         6
     }
 
@@ -1632,7 +1632,7 @@ enum Boss: String, CaseIterable, Item {
         }
     }
 
-    var ordinal: Int {
+    public var ordinal: Int {
         switch self {
         case .The_Arm:
             return 0
@@ -1694,7 +1694,7 @@ enum Boss: String, CaseIterable, Item {
     }
 }
 
-enum Suit: String, CaseIterable, Item {
+public enum Suit: String, CaseIterable, Item, Sendable {
     case Hearts = "Hearts"
     case Clubs = "Clubs"
     case Diamonds = "Diamonds"
@@ -1709,7 +1709,7 @@ enum Suit: String, CaseIterable, Item {
         }
     }
 
-    var ordinal: Int {
+    public var ordinal: Int {
         switch self {
         case .Hearts:
             return 0
@@ -1722,12 +1722,12 @@ enum Suit: String, CaseIterable, Item {
         }
     }
 
-    var y: Int {
+    public var y: Int {
         return -1
     }
 }
 
-enum Rank: String, CaseIterable, Item {
+public enum Rank: String, CaseIterable, Item, Sendable {
     case r_2 = "2"
     case r_3 = "3"
     case r_4 = "4"
@@ -1760,11 +1760,11 @@ enum Rank: String, CaseIterable, Item {
         }
     }
 
-    var ordinal: Int {
+    public var ordinal: Int {
         0
     }
 
-    var y: Int {
+    public var y: Int {
         0
     }
 }

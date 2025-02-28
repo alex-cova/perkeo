@@ -1,6 +1,6 @@
 import Foundation
 
-final class Data {
+public final class Data {
     private let seed: String
     private var data: [Int64] = Array(repeating: 0, count: 13)
 

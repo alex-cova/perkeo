@@ -1,10 +1,3 @@
-//
-//  Balatro.swift
-//  balatroseeds
-//
-//  Created by Alex on 03/01/25.
-//
-
 public class Balatro {
 
     let options: [Item] = [
@@ -71,6 +64,10 @@ public class Balatro {
         Voucher.Tarot_Tycoon,
     ]
 
+    public init() {
+
+    }
+
     static let CHARACTERS = "123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
     static func generateRandomString() -> String {
@@ -92,13 +89,13 @@ public class Balatro {
         return -1
     }
 
-    func performAnalysis(seed: String) -> Run {
+    public func performAnalysis(seed: String) -> Run {
         return performAnalysis(
             8, [15, 50, 50, 50, 50, 50, 50, 50], Deck.RED_DECK, Stake.White_Stake, Version.v_101f,
             seed)
     }
 
-    func performAnalysis(seed: String, maxDepth: Int, version: Version = .v_101f) -> Run {
+    public func performAnalysis(seed: String, maxDepth: Int, version: Version = .v_101f) -> Run {
         var cards: [Int] = Array(repeating: 50, count: maxDepth)
         cards[0] = 15
         return performAnalysis(maxDepth, cards, Deck.RED_DECK, Stake.White_Stake, version, seed)
@@ -166,7 +163,7 @@ public class Balatro {
         return self
     }
 
-    func performAnalysis(
+    public func performAnalysis(
         _ maxDepth: Int, _ cardsPerAnte: [Int], _ deck: Deck, _ stake: Stake, _ version: Version,
         _ seed: String
     ) -> Run {
@@ -264,9 +261,29 @@ public class Balatro {
                     }
 
                     let cards = inst.nextArcanaPack(packInfo.size, a)
-                    for c in 0..<packInfo.size {
-                        options.append(EditionItem(cards[c]))
 
+                    for c in cards {
+                        if c is EditionItem {
+                            options.append(c as! EditionItem)
+                            continue
+                        }
+
+                        options.append(EditionItem(c))
+                    }
+                case .Spectral:
+                    if !analyzeSpectralss {
+                        continue
+                    }
+
+                    let cards = inst.nextSpectralPack(packInfo.size, a)
+
+                    for c in cards {
+                        if c is EditionItem {
+                            options.append(c as! EditionItem)
+                            continue
+                        }
+
+                        options.append(EditionItem(c))
                     }
                 case .Buffoon:
                     if !analyzeBuffon {
@@ -277,20 +294,12 @@ public class Balatro {
 
                     for c in 0..<packInfo.size {
                         let joker = cards[c]
-                        let sticker = Balatro.getSticker(joker)
+                        let edition = Balatro.getEdition(joker)
 
-                        options.append(EditionItem(edition: sticker, joker.joker))
+                        options.append(EditionItem(edition: edition, joker.joker))
 
                     }
-                case .Spectral:
-                    if !analyzeSpectralss {
-                        continue
-                    }
 
-                    let cards = inst.nextSpectralPack(packInfo.size, a)
-                    for c in 0..<packInfo.size {
-                        options.append(EditionItem(cards[c]))
-                    }
                 case .Standard:
                     if !analyzeStandard {
                         continue
@@ -310,23 +319,23 @@ public class Balatro {
         return Run(seed: seed, antes: antes)
     }
 
-    static func getSticker(_ joker: JokerData) -> Edition {
-        var sticker: Edition? = nil
+    static func getEdition(_ joker: JokerData) -> Edition {
+        var edition: Edition? = nil
 
         if joker.stickers.eternal {
-            sticker = Edition.Eternal
+            edition = Edition.Eternal
         }
         if joker.stickers.perishable {
-            sticker = Edition.Perishable
+            edition = Edition.Perishable
         }
         if joker.stickers.rental {
-            sticker = Edition.Rental
+            edition = Edition.Rental
         }
 
         if joker.edition != Edition.NoEdition {
-            sticker = joker.edition
+            edition = joker.edition
         }
 
-        return sticker ?? .NoEdition
+        return edition ?? .NoEdition
     }
 }

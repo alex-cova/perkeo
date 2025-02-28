@@ -4,7 +4,7 @@
 //
 //  Created by Alex on 03/01/25.
 //
-class Lock {
+public class Lock {
 
     private var lock: [Int] = Array(repeating: 0, count: 13)
 

@@ -5,13 +5,13 @@
 //  Created by Alex on 03/01/25.
 //
 
-class JokerStickers {
+public class JokerStickers {
     var eternal = false
     var perishable = false
     var rental = false
 }
 
-class JokerData {
+public class JokerData {
     var joker: Item = CommonJoker.Joker
     var rarity: String = "Common"
     var edition: Edition = .NoEdition
@@ -30,32 +30,32 @@ class JokerData {
 
 }
 
-class Card: Item {
+public class Card: Item {
     var base: Cards
     var enhancement: Enhancement?
     var edition: Edition = .NoEdition
     var seal: Seal = .NoSeal
 
-    var rawValue: String {
+    public var rawValue: String {
         return "\(rank.rawValue) \(suit.rawValue)"
     }
 
-    var ordinal: Int {
+    public var ordinal: Int {
         return base.ordinal
     }
 
-    var y: Int {
+   public  var y: Int {
         return base.y
     }
 
-    init(_ base: Cards, _ enhancement: Enhancement?, _ edition: Edition, _ seal: Seal) {
+    public init(_ base: Cards, _ enhancement: Enhancement?, _ edition: Edition, _ seal: Seal) {
         self.base = base
         self.enhancement = enhancement
         self.edition = edition
         self.seal = seal
     }
 
-    var suit: Suit {
+    public var suit: Suit {
         switch base.rawValue.charAt(0) {
         case "C":
             return .Clubs
@@ -68,7 +68,7 @@ class Card: Item {
         }
     }
 
-    var rank: Rank {
+    public var rank: Rank {
         switch base.rawValue.charAt(2) {
         case "T":
             return .r_10
@@ -100,7 +100,7 @@ class Card: Item {
     }
 }
 
-class EditionItem: Encodable, Identifiable, Item {
+public class EditionItem: Encodable, Identifiable, Item {
     let edition: Edition
     let item: Item
 
@@ -119,7 +119,7 @@ class EditionItem: Encodable, Identifiable, Item {
         case item
     }
 
-    func encode(to encoder: any Encoder) throws {
+    public func encode(to encoder: any Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         if  edition != .NoEdition {
             try container.encode(edition, forKey: .sticker)
@@ -127,20 +127,20 @@ class EditionItem: Encodable, Identifiable, Item {
         try container.encode(item.rawValue, forKey: .item)
     }
 
-    var rawValue: String {
+    public var rawValue: String {
         return item.rawValue
     }
 
-    var ordinal: Int {
+    public var ordinal: Int {
         return item.ordinal
     }
 
-    var y: Int {
+    public var y: Int {
         return item.y
     }
 }
 
-class Pack: Encodable, Identifiable {
+public class Pack: Encodable, Identifiable {
     var type: PackType = .RETRY
     var size: Int = 0
     var choices = 0
@@ -160,11 +160,11 @@ class Pack: Encodable, Identifiable {
         self.options = []
     }
 
-    var kind: PackKind {
+    public var kind: PackKind {
         type.kind
     }
 
-    func containsOption(_ name: String) -> Bool {
+    public func containsOption(_ name: String) -> Bool {
         for option in options {
             if option.item.rawValue == name {
                 return true
@@ -198,10 +198,10 @@ class ShopInstance {
 
 }
 
-class ShopItem {
-    var type: ItemType = .Tarot
-    var item: Item = Tarot.The_Fool
-    var jokerData: JokerData = JokerData()
+public class ShopItem {
+    public var type: ItemType = .Tarot
+    public var item: Item = Tarot.The_Fool
+    public var jokerData: JokerData = JokerData()
 
     init() {
 
@@ -220,7 +220,7 @@ class ShopItem {
     }
 }
 
-class InstanceParams {
+public class InstanceParams {
     var deck: Deck
     var stake: Stake
     var showman: Bool
@@ -237,7 +237,7 @@ class InstanceParams {
         vouchers = Set<Voucher>()
     }
 
-    init(_ deck: Deck, _ stake: Stake, _ showman: Bool, _ sixesFactor: Int, _ version: Version) {
+    public init(_ deck: Deck, _ stake: Stake, _ showman: Bool, _ sixesFactor: Int, _ version: Version) {
         self.deck = deck
         self.stake = stake
         self.showman = showman
